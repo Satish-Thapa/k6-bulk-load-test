@@ -16,9 +16,9 @@ export const options = {
     loadTest: {
       executor: "ramping-vus",
       stages: [
-        { duration: "20s", target: 1 }, // Ramp up to 10 VUs
-        // { duration: "2m", target: 50 }, // Stay at 10 VUs
-        // { duration: "10s", target: 0 }, // Ramp down to 0 VUs
+        { duration: "1m", target: 1 }, // Ramp up to 10 VUs
+        // { duration: "2m", target: 500 }, // Stay at 10 VUs
+        // { duration: "50s", target: 0 }, // Ramp down to 0 VUs
       ],
     },
   },
