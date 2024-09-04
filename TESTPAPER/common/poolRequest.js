@@ -9,13 +9,13 @@ export const pollForCompletion = (token, bulkId, type, trend) => {
   let retryCount = 0
 
   while (!isCompleted && retryCount < maxRetries) {
+    console.log(`Retry count ${retryCount} for bulkId:${bulkId}`)
+
     const response =
       type === "bulkExport"
         ? http.post(
             "https://api-devtestpaper.innovatetech.io/graphql",
-            `{"operationName":"Query","variables":{"uploadId":"${bulkId}"},"query":"query Query($uploadId: String!) {\\n  getBulk${
-              type === "bulkExport" ? "Export" : "Import"
-            }Status(uploadId: $uploadId) {\\n    status\\n    filePath\\n    error\\n    __typename\\n  }\\n}\\n"}`,
+            `{"operationName":"Query","variables":{"uploadId":"${bulkId}"},"query":"query Query($uploadId: String!) {\\n  getBulkExportStatus(uploadId: $uploadId) {\\n    status\\n    filePath\\n    error\\n    __typename\\n  }\\n}\\n"}`,
             {
               headers: {
                 authorization: token,
@@ -23,10 +23,19 @@ export const pollForCompletion = (token, bulkId, type, trend) => {
               },
             }
           )
-        : http.post()
+        : http.post(
+            "https://api-devtestpaper.innovatetech.io/graphql",
+            `{"operationName": "GetBulkQuestionsUploadStatus","variables": {"uploadId": "${bulkId}"},"query": "query GetBulkQuestionsUploadStatus($uploadId: String!) {\n  getBulkQuestionsUploadStatus(uploadId: $uploadId) {\n    status\n    insertedData {\n      answersList {\n        answer\n        blankId\n        guidance\n        isCorrect\n        label\n        answerText\n        marks\n        order\n        remarks\n        __typename\n      }\n      bucketId\n      isFitb\n      clientId\n      difficulty\n      errors\n      hasMultipleAnswers\n      mcqOptionsCount\n      hasOptions\n      hasSubQuestions\n      isAutoGraded\n      isCustomEnabled\n      isValid\n      marks\n      maxOptionsCount\n      optionsList {\n        answer\n        blankId\n        guidance\n        isCorrect\n        label\n        marks\n        order\n        remarks\n        __typename\n      }\n      question\n      questionsList {\n        questionText\n        questionsList {\n          questionText\n          questionType\n          reference\n          syllabusContentIdList\n          syllabusId\n          userId\n          answersList {\n            answer\n            blankId\n            guidance\n            isCorrect\n            label\n            answerText\n            marks\n            order\n            remarks\n            __typename\n          }\n          bucketId\n          isFitb\n          clientId\n          difficulty\n          errors\n          hasMultipleAnswers\n          mcqOptionsCount\n          hasOptions\n          hasSubQuestions\n          isAutoGraded\n          isCustomEnabled\n          isValid\n          marks\n          maxOptionsCount\n          optionsList {\n            answer\n            blankId\n            guidance\n            isCorrect\n            label\n            marks\n            order\n            remarks\n            __typename\n          }\n          question\n          __typename\n        }\n        questionType\n        reference\n        syllabusContentIdList\n        syllabusId\n        userId\n        answersList {\n          answer\n          blankId\n          guidance\n          isCorrect\n          label\n          answerText\n          marks\n          order\n          remarks\n          __typename\n        }\n        bucketId\n        isFitb\n        clientId\n        difficulty\n        errors\n        hasMultipleAnswers\n        mcqOptionsCount\n        hasOptions\n        hasSubQuestions\n        isAutoGraded\n        isCustomEnabled\n        isValid\n        marks\n        maxOptionsCount\n        optionsList {\n          answer\n          blankId\n          guidance\n          isCorrect\n          label\n          marks\n          order\n          remarks\n          __typename\n        }\n        question\n        __typename\n      }\n      questionText\n      questionType\n      reference\n      syllabusContentIdList\n      syllabusId\n      userId\n      __typename\n    }\n    error\n    __typename\n  }\n}\n"}`,
+            {
+              headers: {
+                authorization: token,
+                "content-type": "application/json",
+              },
+            }
+          )
 
     const statusResponse = JSON.parse(response.body).data[
-      `getBulk${type === "bulkExport" ? "Export" : "Import"}Status`
+      `getBulk${type === "bulkExport" ? "Export" : "QuestionUpload"}Status`
     ]
     const status = statusResponse.status
 
