@@ -1,8 +1,8 @@
 PROMETHEUS_URL = http://localhost:9090/api/v1/write
 
-USERNAME = deepan.joshi@innovatetech.co 
+USERNAME = 
 
-PASSWORD = Test.123
+PASSWORD = 
 
 bulk-test:
 	@echo "Running k6 Bulk Testpaper Test..."
