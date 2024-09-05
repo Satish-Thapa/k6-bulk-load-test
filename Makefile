@@ -1,7 +1,6 @@
 PROMETHEUS_URL = http://localhost:9090/api/v1/write
 
 USERNAME = 
-
 PASSWORD = 
 
 bulk-test:

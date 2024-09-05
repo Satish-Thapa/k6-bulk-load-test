@@ -9,5 +9,3 @@ export const checkBulkStatus = (status) =>
   check(status, {
     "status should not be failed": (status) => status === "Completed",
   })
-
-export const prepareFilePayload = () => {}

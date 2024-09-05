@@ -13,7 +13,7 @@ const bulkImportTrend = new Trend("bulk_import_time", true)
 const file = open("./bulk-file/bulk.xlsx", "b")
 
 export const options = {
-  vus: 50,
+  vus: 1,
   thresholds: { http_req_duration: ["avg<150"] },
   noConnectionReuse: true,
   summaryTrendStats: ["avg", "min", "max", "count"],
@@ -21,9 +21,9 @@ export const options = {
     loadTest: {
       executor: "ramping-vus",
       stages: [
-        { duration: "1m", target: 1 }, // Ramp up to 10 VUs
-        // { duration: "5m", target: 500 }, // Stay at 10 VUs
-        // { duration: "50s", target: 10 }, // Ramp down to 0 VUs
+        { duration: "5m", target: 100 }, // Ramp up to 10 VUs
+        { duration: "10m", target: 500 }, // Stay at 10 VUs
+        { duration: "20s", target: 0 }, // Ramp down to 0 VUs
       ],
     },
   },
@@ -70,6 +70,8 @@ export default function () {
     const isLoginSucessFull = checkSucessStatusCode(response)
 
     if (isLoginSucessFull) {
+      console.log("Login sucessfull")
+
       sleep(2)
 
       execCommonRequest(token)

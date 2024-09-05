@@ -11,7 +11,6 @@ export const pollForCompletion = (token, bulkId, type, trend) => {
   sleep(3) //wait 3 sec before polling
   while (!isCompleted && retryCount < maxRetries) {
     console.log(`Retry count ${retryCount} for bulkId:${bulkId}`)
-    console.log(type)
     const response =
       type === "bulkExport"
         ? http.post(
