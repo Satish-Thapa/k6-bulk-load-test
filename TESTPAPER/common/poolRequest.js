@@ -8,7 +8,7 @@ export const pollForCompletion = (token, bulkId, type, trend) => {
   const maxRetries = 10
   let retryCount = 0
 
-  sleep(5) //wait 5 sec before polling
+  sleep(3) //wait 3 sec before polling
   while (!isCompleted && retryCount < maxRetries) {
     console.log(`Retry count ${retryCount} for bulkId:${bulkId}`)
     console.log(type)
